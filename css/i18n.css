@@ -1,0 +1,50 @@
+/* Language switcher — compact dropdown with flags (ship blocker) */
+.lang-switch{position:relative;z-index:80;flex:0 0 auto;margin-left:.35rem;align-self:center}
+.lang-switch-btn{
+  display:inline-flex;align-items:center;gap:.42rem;
+  padding:.42rem .72rem;border-radius:999px;cursor:pointer;
+  border:1px solid color-mix(in srgb,var(--accent) 40%,var(--line));
+  background:color-mix(in srgb,var(--surface) 85%,var(--accent));
+  color:var(--text);font-size:.78rem;font-weight:800;letter-spacing:.02em;
+  text-transform:none!important;
+  transition:border-color .25s,box-shadow .25s,transform .25s;
+}
+.lang-switch-btn:hover,.lang-switch.is-open .lang-switch-btn{
+  border-color:var(--accent);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 35%,transparent),0 10px 24px color-mix(in srgb,var(--accent) 25%,transparent);
+}
+.lang-flag-img{
+  width:22px;height:16px;object-fit:cover;border-radius:3px;flex:0 0 auto;
+  box-shadow:0 0 0 1px rgba(255,255,255,.22),0 2px 6px rgba(0,0,0,.35);
+  display:block;
+}
+.lang-switch-btn .lang-code,.lang-option .lang-code{
+  font-size:.68rem;font-weight:900;letter-spacing:.06em;opacity:.75;min-width:1.5rem;
+}
+.lang-switch-btn .lang-name{white-space:nowrap}
+.lang-switch-panel{
+  position:absolute!important;top:calc(100% + .45rem)!important;right:0!important;left:auto!important;
+  min-width:14rem;width:max-content;max-width:min(18rem,92vw);
+  padding:.45rem;border-radius:14px;
+  background:color-mix(in srgb,var(--surface) 96%,#000);
+  border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));
+  box-shadow:0 18px 40px rgba(0,0,0,.5);
+  display:none!important;
+  max-height:min(70vh,22rem);overflow:auto;
+  flex-direction:column;grid-auto-flow:row;
+  z-index:90;
+}
+.lang-switch.is-open .lang-switch-panel{display:grid!important;gap:.2rem}
+.lang-option{
+  display:flex!important;align-items:center;gap:.55rem;width:100%;text-align:left;
+  padding:.55rem .65rem;border:0;border-radius:10px;cursor:pointer;
+  background:transparent;color:var(--text);font-size:.86rem;font-weight:650;
+  white-space:nowrap;
+}
+.lang-option:hover,.lang-option.is-active{background:color-mix(in srgb,var(--accent) 18%,transparent)}
+.lang-option.is-active{color:var(--accent);outline:1px solid color-mix(in srgb,var(--accent) 45%,transparent)}
+@media (max-width:1099px){
+  .lang-switch{order:3;margin-left:.25rem}
+  .lang-switch-btn .lang-name{display:none}
+  .lang-switch-panel{right:0;left:auto}
+}
