@@ -206,32 +206,36 @@
  var headerBar = document.querySelector(".header-bar");
  if (!headerBar) return;
  var cta = headerBar.querySelector(".header-cta");
+ var toggle = headerBar.querySelector(".nav-toggle");
+ var actions = headerBar.querySelector(".header-actions");
+ if (!actions) {
+  actions = document.createElement("div");
+  actions.className = "header-actions";
+  if (cta && cta.parentNode === headerBar) { headerBar.insertBefore(actions, cta); actions.appendChild(cta); }
+  else if (toggle && toggle.parentNode === headerBar) { headerBar.insertBefore(actions, toggle); }
+  else { headerBar.appendChild(actions); }
+ }
+ if (toggle && toggle.parentNode === headerBar) actions.appendChild(toggle);
+ if (cta && cta.parentNode === headerBar) actions.appendChild(cta);
  var wrap = document.createElement("div");
  wrap.className = "lang-switch";
  wrap.id = "langSwitch";
- wrap.innerHTML =
- '<button type="button" class="lang-switch-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Language"></button>' +
- '<div class="lang-switch-panel" role="listbox"></div>';
+ wrap.innerHTML = '<button type="button" class="lang-switch-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Language"></button><div class="lang-switch-panel" role="listbox"></div>';
  var panel = wrap.querySelector(".lang-switch-panel");
  langs.forEach(function (code) {
- var m = dict.meta[code];
- var b = document.createElement("button");
- b.type = "button";
- b.className = "lang-option";
- b.setAttribute("data-lang", code);
- b.setAttribute("role", "option");
- b.innerHTML =
- flagHtml(m) +
- '<span class="lang-code">' +
- String(code).toUpperCase() +
- "</span><span>" +
- m.name +
- "</span>";
- b.addEventListener("click", function () {
- wrap.classList.remove("is-open");
- wrap.querySelector(".lang-switch-btn").setAttribute("aria-expanded", "false");
- applyLang(code);
+  var m = dict.meta[code];
+  var b = document.createElement("button");
+  b.type = "button"; b.className = "lang-option"; b.setAttribute("data-lang", code); b.setAttribute("role", "option");
+  b.innerHTML = flagHtml(m) + '<span class="lang-code">' + String(code).toUpperCase() + "</span><span>" + m.name + "</span>";
+  b.addEventListener("click", function () { wrap.classList.remove("is-open"); wrap.querySelector(".lang-switch-btn").setAttribute("aria-expanded", "false"); applyLang(code); });
+  panel.appendChild(b);
  });
+ var btn = wrap.querySelector(".lang-switch-btn");
+ btn.addEventListener("click", function (e) { e.stopPropagation(); var open = wrap.classList.toggle("is-open"); btn.setAttribute("aria-expanded", open ? "true" : "false"); });
+ document.addEventListener("click", function () { wrap.classList.remove("is-open"); btn.setAttribute("aria-expanded", "false"); });
+ actions.insertBefore(wrap, actions.firstChild);
+ }
+);
  panel.appendChild(b);
  });
  var btn = wrap.querySelector(".lang-switch-btn");
